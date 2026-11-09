@@ -1,4 +1,4 @@
-::: {align="center"}
+
 # AXY TECHNOLOGIES
 
 ### Your Vision, Built Digitally.
