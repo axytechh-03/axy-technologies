@@ -235,7 +235,7 @@ licences and terms.
 
 ------------------------------------------------------------------------
 
-::: {align="center"}
+
 **AXY TECHNOLOGIES**\
 *Your Vision, Built Digitally.*
-:::
+
