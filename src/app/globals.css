@@ -27,7 +27,7 @@ html {
 .section,
 .hero,
 [id] {
-  scroll-margin-top: 84px;
+  scroll-margin-top: clamp(96px, 14vh, 120px);
 }
 
 body {
@@ -337,14 +337,15 @@ button {
 }
 
 .hero {
-  min-height: 760px;
-  padding: 150px 0 90px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(100px, 12vh, 150px) 0 clamp(40px, 6vh, 80px);
   background: radial-gradient(ellipse at 77% 40%, #183c91 0%, transparent 32%),
               radial-gradient(ellipse at 54% 100%, #10285a 0%, transparent 42%),
               var(--night);
   color: white;
   position: relative;
-  overflow: clip;
+  overflow-x: clip;
   max-width: 100vw;
 }
 
@@ -370,30 +371,32 @@ button {
   right: -180px;
   top: 100px;
   box-shadow: 0 0 0 55px #5c8bff08, 0 0 0 110px #5c8bff05;
+  pointer-events: none;
 }
 
 .hero-grid {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr 1.02fr;
-  gap: 50px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(32px, 3.5vw, 56px);
   align-items: center;
 }
 
 .hero-copy {
-  padding: 35px 0;
+  padding: 0;
 }
 
 .hero-kicker {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(8px, 1.2vw, 12px);
   color: #9eadd0;
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: clamp(8.5px, 1.5vw, 10px);
+  letter-spacing: clamp(0.12em, 0.3vw, 0.22em);
   text-transform: uppercase;
-  margin-bottom: 25px;
+  margin-bottom: clamp(16px, 2.5vh, 25px);
+  flex-wrap: wrap;
 }
 
 .hero-kicker span {
@@ -403,10 +406,12 @@ button {
 }
 
 .hero h1 {
-  font: 600 clamp(52px, 7.2vw, 88px) / 0.99 var(--font-space-grotesk), "Space Grotesk", sans-serif;
-  letter-spacing: -0.075em;
+  font: 600 clamp(48px, 5.8vw, 84px) / 1.02 var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  letter-spacing: -0.05em;
   margin: 0;
   max-width: 650px;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .hero h1 .blue {
@@ -417,16 +422,16 @@ button {
 }
 
 .hero-sub {
-  font: 500 clamp(20px, 2.4vw, 27px) var(--font-space-grotesk), "Space Grotesk", sans-serif;
+  font: 500 clamp(18px, 2.2vw, 26px) / 1.25 var(--font-space-grotesk), "Space Grotesk", sans-serif;
   color: #c6d1e9;
-  margin: 20px 0 14px;
-  letter-spacing: -0.035em;
+  margin: clamp(14px, 2vh, 20px) 0 clamp(8px, 1.2vh, 12px);
+  letter-spacing: -0.03em;
 }
 
 .hero-desc {
   color: #a8b2c9;
-  line-height: 1.8;
-  font-size: 14px;
+  line-height: 1.75;
+  font-size: clamp(13px, 1.2vw, 14.5px);
   max-width: 480px;
 }
 
@@ -434,7 +439,8 @@ button {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 30px;
+  align-items: center;
+  margin-top: clamp(24px, 3.5vh, 32px);
 }
 
 .hero .btn-ghost {
@@ -447,7 +453,7 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 42px;
+  margin-top: clamp(28px, 4vh, 42px);
   color: #8997b3;
   font-size: 11px;
 }
@@ -471,11 +477,24 @@ button {
 }
 
 .visual-stage {
-  height: 490px;
+  height: 480px;
+  width: 100%;
+  max-width: 520px;
+  margin: -15px auto 0;
   position: relative;
   display: grid;
   place-items: center;
   perspective: 1000px;
+}
+
+.visual-glow {
+  width: 440px;
+  height: 440px;
+}
+
+.orbit-dashed {
+  width: 460px;
+  height: 460px;
 }
 
 .orbit {
@@ -578,6 +597,7 @@ button {
   animation: tagfloat 5s ease-in-out infinite;
   z-index: 5;
   user-select: none;
+  white-space: nowrap;
 }
 
 .float-tag b {
@@ -594,27 +614,28 @@ button {
   place-items: center;
   color: #8db0ff;
   font-size: 15px;
+  flex-shrink: 0;
 }
 
 .tag-one {
-  top: 60px;
+  top: 50px;
   left: 0;
 }
 
 .tag-two {
-  top: 90px;
+  top: 80px;
   right: 0;
   animation-delay: -1.3s;
 }
 
 .tag-three {
-  bottom: 85px;
-  left: 2%;
+  bottom: 75px;
+  left: 0;
   animation-delay: -2.4s;
 }
 
 .tag-four {
-  bottom: 65px;
+  bottom: 55px;
   right: 0;
   animation-delay: -0.7s;
 }
@@ -1544,19 +1565,70 @@ button {
 }
 
 /* Media Queries matching prototype */
+@media (min-width: 901px) and (max-width: 1200px) {
+  .hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 5.2vw, 62px);
+  }
+  .visual-stage {
+    height: 440px;
+    max-width: 460px;
+    transform: scale(0.92);
+    transform-origin: center center;
+  }
+  .tag-one {
+    left: -4px;
+    top: 40px;
+  }
+  .tag-two {
+    right: -4px;
+    top: 60px;
+  }
+  .tag-three {
+    left: -4px;
+    bottom: 60px;
+  }
+  .tag-four {
+    right: -4px;
+    bottom: 40px;
+  }
+}
+
 @media (max-width: 900px) {
+  .hero {
+    min-height: auto;
+    padding-top: clamp(105px, 14vh, 125px);
+    padding-bottom: 60px;
+  }
+  .hero:after {
+    width: 380px;
+    height: 380px;
+    right: -100px;
+    opacity: 0.4;
+  }
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .hero {
-    padding-top: 130px;
+    gap: 24px;
   }
   .hero-copy {
     padding-bottom: 0;
+    max-width: 640px;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 7vw, 62px);
+    line-height: 1.04;
   }
   .visual-stage {
-    height: 430px;
+    height: 410px;
+    max-width: 460px;
+    margin: 10px auto 0;
+    transform: scale(0.95);
+  }
+  .scroll-cue {
+    display: none;
   }
   .cap-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1587,7 +1659,18 @@ button {
 
 @media (max-width: 640px) {
   .wrap {
-    width: min(100% - 34px, 1160px);
+    width: min(100% - 32px, 1160px);
+  }
+  .site-header {
+    padding: 14px 0;
+    background: rgba(8, 13, 27, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .site-header.scrolled {
+    padding: 11px 0;
+    background: rgba(8, 13, 27, 0.94);
   }
   .section {
     padding: 78px 0;
@@ -1595,9 +1678,9 @@ button {
   .nav-links {
     display: none;
     position: absolute;
-    top: 64px;
-    left: 17px;
-    right: 17px;
+    top: 60px;
+    left: 16px;
+    right: 16px;
     background: #0d1730;
     border: 1px solid #ffffff20;
     border-radius: 16px;
@@ -1621,44 +1704,70 @@ button {
   }
   .hero {
     min-height: 0;
-    padding: 125px 0 70px;
+    padding: 108px 0 50px;
+    overflow-x: clip;
+  }
+  .hero:after {
+    display: none;
+  }
+  .hero-kicker {
+    font-size: clamp(8.5px, 2.2vw, 9.5px);
+    letter-spacing: clamp(0.12em, 0.35vw, 0.18em);
+    margin-bottom: 16px;
   }
   .hero h1 {
-    font-size: clamp(48px, 14vw, 68px);
+    font-size: clamp(38px, 9.5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+  .hero-sub {
+    font-size: clamp(17px, 4.2vw, 21px);
+    margin: 14px 0 10px;
   }
   .hero-desc {
-    font-size: 13px;
+    font-size: 13.5px;
+    line-height: 1.65;
   }
   .visual-stage {
-    height: 350px;
-    transform: scale(0.88);
-    margin: -5px auto;
-    max-width: 100%;
-    overflow: clip;
+    height: 380px;
+    max-width: 400px;
+    transform: none;
+    margin: 15px auto 0;
+    overflow: visible;
+  }
+  .visual-glow {
+    width: 290px;
+    height: 290px;
+  }
+  .orbit-dashed {
+    width: 300px;
+    height: 300px;
   }
   .core-card {
-    width: 210px;
-    height: 210px;
-    border-radius: 32px;
+    width: 175px;
+    height: 175px;
+    border-radius: 28px;
   }
   .core-logo {
-    width: 130px;
+    width: 112px;
+    height: 80px;
   }
   .orbit {
-    width: 320px;
-    height: 320px;
+    width: 280px;
+    height: 280px;
   }
   .orbit.two {
-    width: 400px;
-    height: 400px;
+    width: 340px;
+    height: 340px;
   }
   .float-tag {
-    padding: 8px 11px;
-    font-size: 8.5px;
+    padding: 8px 12px;
+    font-size: 9px;
     gap: 8px;
+    border-radius: 12px;
   }
   .float-tag b {
-    font-size: 9.5px;
+    font-size: 10.5px;
   }
   .tag-icon {
     width: 24px;
@@ -1667,20 +1776,20 @@ button {
     border-radius: 7px;
   }
   .tag-one {
-    left: -6px;
-    top: 18px;
+    left: 0;
+    top: 16px;
   }
   .tag-two {
-    right: -6px;
-    top: 72px;
+    right: 0;
+    top: 56px;
   }
   .tag-three {
-    left: -6px;
-    bottom: 72px;
+    left: 0;
+    bottom: 56px;
   }
   .tag-four {
-    right: -6px;
-    bottom: 18px;
+    right: 0;
+    bottom: 16px;
   }
   .trust-inner {
     justify-content: center;
@@ -1778,6 +1887,227 @@ button {
   }
   .section-head {
     margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrap {
+    width: min(100% - 24px, 1160px);
+  }
+  .site-header {
+    padding: 12px 0;
+  }
+  .hero {
+    padding: 104px 0 45px;
+  }
+  .hero-kicker {
+    margin-bottom: 12px;
+    font-size: 8.5px;
+    gap: 8px;
+    letter-spacing: 0.16em;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 9.4vw, 42px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 4.4vw, 19px);
+    margin: 12px 0 8px;
+  }
+  .hero-desc {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 13.5px;
+  }
+  .hero-note {
+    margin-top: 20px;
+    font-size: 10.5px;
+  }
+  .visual-stage {
+    height: 370px;
+    max-width: 350px;
+    margin: 16px auto 0;
+  }
+  .core-card {
+    width: 155px;
+    height: 155px;
+    border-radius: 26px;
+  }
+  .core-logo {
+    width: 100px;
+    height: 70px;
+  }
+  .visual-glow {
+    width: 250px;
+    height: 250px;
+  }
+  .orbit-dashed {
+    width: 270px;
+    height: 270px;
+  }
+  .orbit {
+    width: 250px;
+    height: 250px;
+  }
+  .orbit.two {
+    width: 300px;
+    height: 300px;
+  }
+  .float-tag {
+    padding: 7px 11px;
+    font-size: 8.5px;
+    gap: 7px;
+    border-radius: 10px;
+  }
+  .float-tag b {
+    font-size: 9.5px;
+    line-height: 1.25;
+  }
+  .tag-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    border-radius: 6px;
+  }
+  .tag-one {
+    left: 0;
+    top: 10px;
+  }
+  .tag-two {
+    right: 0;
+    top: 48px;
+  }
+  .tag-three {
+    left: 0;
+    bottom: 48px;
+  }
+  .tag-four {
+    right: 0;
+    bottom: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .wrap {
+    width: min(100% - 20px, 1160px);
+  }
+  .hero {
+    padding: 98px 0 40px;
+  }
+  .hero h1 {
+    font-size: clamp(30px, 8.8vw, 34px);
+  }
+  .visual-stage {
+    height: 350px;
+    max-width: 310px;
+    margin: 12px auto 0;
+  }
+  .core-card {
+    width: 140px;
+    height: 140px;
+    border-radius: 24px;
+  }
+  .core-logo {
+    width: 90px;
+    height: 64px;
+  }
+  .orbit {
+    width: 230px;
+    height: 230px;
+  }
+  .orbit.two {
+    width: 270px;
+    height: 270px;
+  }
+  .visual-glow {
+    width: 220px;
+    height: 220px;
+  }
+  .orbit-dashed {
+    width: 240px;
+    height: 240px;
+  }
+  .float-tag {
+    padding: 6px 9px;
+    font-size: 8px;
+    gap: 6px;
+    border-radius: 9px;
+  }
+  .float-tag b {
+    font-size: 9px;
+    line-height: 1.2;
+  }
+  .tag-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    border-radius: 5px;
+  }
+  .tag-one {
+    left: 0;
+    top: 6px;
+  }
+  .tag-two {
+    right: 0;
+    top: 42px;
+  }
+  .tag-three {
+    left: 0;
+    bottom: 42px;
+  }
+  .tag-four {
+    right: 0;
+    bottom: 6px;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+    padding: 96px 0 35px;
+  }
+  .visual-stage {
+    height: 250px;
+    max-width: 440px;
+  }
+  .core-card {
+    width: 140px;
+    height: 140px;
+    border-radius: 22px;
+  }
+  .core-logo {
+    width: 90px;
+    height: 64px;
+  }
+  .tag-one {
+    left: 0;
+    top: 8px;
+  }
+  .tag-two {
+    right: 0;
+    top: 25px;
+  }
+  .tag-three {
+    left: 0;
+    bottom: 25px;
+  }
+  .tag-four {
+    right: 0;
+    bottom: 8px;
   }
 }
 

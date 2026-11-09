@@ -8,6 +8,7 @@ export const HeroVisual: React.FC = () => {
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     if (!stageRef.current) return;
     const rect = stageRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -36,7 +37,7 @@ export const HeroVisual: React.FC = () => {
     >
       {/* Ambient Blue Radial Glow Behind Visual */}
       <div
-        className="absolute w-[320px] h-[320px] md:w-[440px] md:h-[440px] rounded-full pointer-events-none"
+        className="visual-glow absolute rounded-full pointer-events-none"
         style={{
           background: "radial-gradient(circle, rgba(53, 99, 245, 0.28) 0%, rgba(53, 99, 245, 0.05) 50%, transparent 70%)",
           filter: "blur(40px)",
@@ -45,7 +46,7 @@ export const HeroVisual: React.FC = () => {
 
       {/* Tilt Wrapper with smooth spring / transition */}
       <motion.div
-        className="relative w-full h-full flex items-center justify-center"
+        className="relative w-full h-full flex items-center justify-center overflow-visible"
         animate={{
           rotateX: tilt.rotateX,
           rotateY: tilt.rotateY,
@@ -68,7 +69,7 @@ export const HeroVisual: React.FC = () => {
 
         {/* Dashed Orbital Path */}
         <div
-          className="absolute w-[340px] h-[340px] md:w-[460px] md:h-[460px] rounded-full border border-dashed border-[#76a1ff30] pointer-events-none"
+          className="orbit-dashed absolute rounded-full border border-dashed border-[#76a1ff30] pointer-events-none"
           style={{
             transform: "rotateX(72deg) rotateZ(15deg)",
             animation: "orbit 45s linear infinite",
@@ -87,7 +88,7 @@ export const HeroVisual: React.FC = () => {
           aria-hidden="true"
         />
         <div
-          className="absolute top-1/2 -right-6 w-2 h-2 bg-[#8cb0ff] rounded-full shadow-[0_0_12px_#3563f5] pointer-events-none"
+          className="absolute top-1/2 right-0 md:-right-4 w-2 h-2 bg-[#8cb0ff] rounded-full shadow-[0_0_12px_#3563f5] pointer-events-none hidden sm:block"
           aria-hidden="true"
         />
 

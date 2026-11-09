@@ -19,7 +19,7 @@ export const HeroSection: React.FC = () => {
             <span className="blue">Grow.</span>
           </h1>
 
-          <div id="about" className="scroll-mt-28">
+          <div id="about" className="scroll-mt-36">
             <div className="hero-sub">Your digital growth partner.</div>
 
             <p className="hero-desc">
