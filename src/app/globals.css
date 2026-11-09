@@ -1781,7 +1781,79 @@ button {
   }
 }
 
+/* ==============================================================================
+   AXY TECHNOLOGIES — CIRCULAR BRANDED EMBLEM LOADER
+   ============================================================================== */
+@keyframes axyOrbitSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes axyOrbitReverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes axyRadialPulse {
+  0%, 100% {
+    opacity: 0.32;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.52;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes axyEmblemEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.axy-orbit-spin {
+  animation: axyOrbitSpin 3.2s linear infinite;
+  transform-origin: 250px 250px;
+}
+
+.axy-orbit-reverse {
+  animation: axyOrbitReverse 12s linear infinite;
+  transform-origin: 250px 250px;
+}
+
+.axy-radial-pulse {
+  animation: axyRadialPulse 3.8s ease-in-out infinite;
+}
+
+.axy-emblem-in {
+  animation: axyEmblemEntrance 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  #axy-branded-loader {
+    display: none !important;
+  }
+  .axy-orbit-spin,
+  .axy-orbit-reverse,
+  .axy-radial-pulse,
+  .axy-emblem-in {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
   html {
     scroll-behavior: auto;
   }

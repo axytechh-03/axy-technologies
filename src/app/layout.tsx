@@ -25,16 +25,45 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "AXY Technologies — Build. Market. Grow.",
   description:
-    "AXY Technologies — Build. Market. Grow. Websites, digital marketing and SEO that move businesses forward.",
+    "AXY Technologies — Strategic website development, targeted Meta & Google Ads, and local SEO optimization that move modern businesses forward.",
   keywords: [
     "AXY Technologies",
-    "Web development",
+    "Website development",
     "Digital marketing",
+    "Meta Ads",
+    "Google Ads",
     "SEO optimization",
     "Branding",
     "Coimbatore",
   ],
   authors: [{ name: "AXY Technologies" }],
+  creator: "AXY Technologies",
+  publisher: "AXY Technologies",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://axytechnologies.com"
+  ),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "AXY Technologies — Build. Market. Grow.",
+    description:
+      "Strategic website development, targeted Meta & Google Ads, and local SEO optimization that move modern businesses forward.",
+    url: "/",
+    siteName: "AXY Technologies",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AXY Technologies — Build. Market. Grow.",
+    description:
+      "Strategic website development, targeted Meta & Google Ads, and local SEO optimization that move modern businesses forward.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: "/favicon.ico",
   },

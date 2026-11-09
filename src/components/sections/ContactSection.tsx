@@ -17,9 +17,10 @@ export const ContactSection: React.FC = () => {
   });
 
   const [phoneError, setPhoneError] = useState<string>("");
-  const [formMessage, setFormMessage] = useState<string>(
-    "Prototype form: submitting opens a pre-filled email draft."
-  );
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string>("");
+  const [submittedReference, setSubmittedReference] = useState<string | null>(null);
+  const [formLoadedAt, setFormLoadedAt] = useState<number>(() => Date.now());
 
   const isConditionalVisible =
     formData.service === "Multiple Services" || formData.service === "Not Sure Yet";
@@ -29,12 +30,14 @@ export const ContactSection: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (submitError) setSubmitError("");
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setFormData((prev) => ({ ...prev, phone: value }));
     if (phoneError) setPhoneError("");
+    if (submitError) setSubmitError("");
   };
 
   const handleServiceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -48,6 +51,7 @@ export const ContactSection: React.FC = () => {
           ? prev.conditionalServiceDetails
           : "",
     }));
+    if (submitError) setSubmitError("");
   };
 
   const validatePhone = (phone: string, countryCode: string): boolean => {
@@ -79,32 +83,69 @@ export const ContactSection: React.FC = () => {
     return true;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validatePhone(formData.phone, formData.countryCode)) {
       return;
     }
 
-    const cleanPhone = formData.phone.trim().replace(/[\s\-().]/g, "");
-    const fullPhone = cleanPhone ? `${formData.countryCode} ${cleanPhone}` : "Not provided";
+    if (isSubmitting) return;
 
-    const subject = encodeURIComponent(
-      `Project enquiry — AXY Technologies (${formData.name})`
-    );
+    setIsSubmitting(true);
+    setSubmitError("");
 
-    let bodyText = `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${fullPhone}\nService: ${formData.service}\n`;
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          countryCode: formData.countryCode,
+          service: formData.service,
+          conditionalServiceDetails: formData.conditionalServiceDetails,
+          message: formData.message,
+          company_url: (formData as { company_url?: string }).company_url || "",
+          form_loaded_at: formLoadedAt,
+        }),
+      });
 
-    if (isConditionalVisible && formData.conditionalServiceDetails.trim()) {
-      bodyText += `\nService Requirements:\n${formData.conditionalServiceDetails.trim()}\n`;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit enquiry. Please try again.");
+      }
+
+      setSubmittedReference(data.reference);
+      // Reset form fields
+      setFormData({
+        name: "",
+        email: "",
+        countryCode: "+91",
+        phone: "",
+        service: "",
+        conditionalServiceDetails: "",
+        message: "",
+      });
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "An unexpected error occurred. Please try again or email us directly at axy.techh@gmail.com.";
+      setSubmitError(errorMessage);
+    } finally {
+      setIsSubmitting(false);
     }
+  };
 
-    bodyText += `\nProject Details:\n${formData.message.trim()}`;
-
-    const body = encodeURIComponent(bodyText);
-
-    setFormMessage("Opening your email client with the enquiry details…");
-    window.location.href = `mailto:axy.techh@gmail.com?subject=${subject}&body=${body}`;
+  const handleReset = () => {
+    setSubmittedReference(null);
+    setSubmitError("");
+    setFormLoadedAt(Date.now());
   };
 
   return (
@@ -156,147 +197,208 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Refined Contact Form Container */}
-        <form className="contact-form" id="contactForm" onSubmit={handleSubmit} noValidate={false}>
-          {/* Row 1: Your Name & Email Address */}
-          <div className="form-row two-col">
-            <div className="field">
-              <label htmlFor="name">Your Name</label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Full name"
-                autoComplete="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+        {submittedReference ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="contact-form text-center py-12 px-6 flex flex-col items-center justify-center"
+          >
+            <div className="w-14 h-14 rounded-full bg-[#3563f520] border border-[#3563f540] text-[#76a1ff] flex items-center justify-center text-2xl mb-4 font-bold">
+              ✓
             </div>
-            <div className="field">
-              <label htmlFor="email">Email Address</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                autoComplete="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
+            <h3 className="font-heading text-xl md:text-2xl font-semibold text-white mb-2">
+              Enquiry Received
+            </h3>
+            <p className="text-sm text-[#9cb0d8] max-w-md mx-auto mb-6 leading-relaxed">
+              Thank you for reaching out to AXY Technologies. Our team has received your details
+              and will review your project requirements promptly.
+            </p>
 
-          {/* Row 2: Phone Number (Optional) */}
-          <div className="field">
-            <label htmlFor="phone">Phone Number (Optional)</label>
-            <div className="phone-input-row">
-              <select
-                id="countryCode"
-                name="countryCode"
-                value={formData.countryCode}
-                onChange={handleChange}
-                aria-label="Country Code"
-                className="phone-code-select cursor-pointer"
-              >
-                <option value="+91">🇮🇳 +91</option>
-                <option value="+1">🇺🇸 +1</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+971">🇦🇪 +971</option>
-                <option value="+65">🇸🇬 +65</option>
-                <option value="+61">🇦🇺 +61</option>
-              </select>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="98765 43210"
-                autoComplete="tel"
-                value={formData.phone}
-                onChange={handlePhoneChange}
-                className="phone-number-input"
-              />
-            </div>
-            {phoneError && (
-              <span className="text-[11px] text-[#ff7b72] mt-1.5 block font-medium">
-                {phoneError}
+            <div className="bg-[#090f1f] border border-[#ffffff15] px-4 py-3 rounded-xl mb-6 inline-flex flex-col items-center">
+              <span className="text-[10px] uppercase font-bold text-[#8290ac] tracking-wider mb-1">
+                Your Enquiry Reference
               </span>
-            )}
-          </div>
+              <span className="font-mono text-base font-bold text-[#82a5ff]">
+                {submittedReference}
+              </span>
+            </div>
 
-          {/* Row 3: What Do You Need? (Service Selection) */}
-          <div className="field">
-            <label htmlFor="service">What Do You Need?</label>
-            <select
-              id="service"
-              name="service"
-              value={formData.service}
-              onChange={handleServiceChange}
-              required
-              className="cursor-pointer"
-            >
-              <option value="">Choose a service</option>
-              <option value="Website development">Website development</option>
-              <option value="Digital marketing / Meta Ads">Digital marketing / Meta Ads</option>
-              <option value="Google Ads">Google Ads</option>
-              <option value="SEO optimization">SEO optimization</option>
-              <option value="Branding and creative">Branding and creative</option>
-              <option value="Multiple Services">Multiple Services</option>
-              <option value="Not Sure Yet">Not Sure Yet</option>
-            </select>
-          </div>
-
-          {/* Row 4: Conditional Requirements Textarea (When Applicable) */}
-          <AnimatePresence>
-            {isConditionalVisible && (
-              <motion.div
-                initial={{ opacity: 0, height: 0, y: -6 }}
-                animate={{ opacity: 1, height: "auto", y: 0 }}
-                exit={{ opacity: 0, height: 0, y: -6 }}
-                transition={{ duration: 0.28, ease: [0.2, 0.75, 0.25, 1] }}
-                className="field overflow-hidden"
-              >
-                <label htmlFor="conditionalServiceDetails">
-                  Tell us more about what you&apos;re looking for
-                </label>
-                <textarea
-                  id="conditionalServiceDetails"
-                  name="conditionalServiceDetails"
-                  placeholder="Briefly describe your requirements, the services you're interested in, or what you would like us to help you with..."
-                  value={formData.conditionalServiceDetails}
-                  onChange={handleChange}
-                  required={isConditionalVisible}
-                  rows={3}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Row 5: Tell Us About Your Project */}
-          <div className="field">
-            <label htmlFor="message">Tell Us About Your Project</label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="A little about your business and goals..."
-              value={formData.message}
-              onChange={handleChange}
-              required
-              rows={4}
-            />
-          </div>
-
-          {/* Row 6: Submit Button */}
-          <div className="pt-1">
-            <Button variant="primary" type="submit" className="w-full sm:w-auto">
-              Prepare enquiry
+            <Button variant="ghost" onClick={handleReset} type="button">
+              Submit another enquiry
             </Button>
-          </div>
+          </motion.div>
+        ) : (
+          <form className="contact-form" id="contactForm" onSubmit={handleSubmit} noValidate={false}>
+            {/* Honeypot spam protection (hidden from human visitors) */}
+            <div style={{ display: "none" }} aria-hidden="true">
+              <input
+                type="text"
+                name="company_url"
+                tabIndex={-1}
+                autoComplete="off"
+                value={(formData as { company_url?: string }).company_url || ""}
+                onChange={handleChange}
+              />
+            </div>
 
-          <div className="form-message" id="formMessage" aria-live="polite">
-            {formMessage}
-          </div>
-        </form>
+            {/* Row 1: Your Name & Email Address */}
+            <div className="form-row two-col">
+              <div className="field">
+                <label htmlFor="name">Your Name</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Full name"
+                  autoComplete="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+              <div className="field">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+
+            {/* Row 2: Phone Number (Optional) */}
+            <div className="field">
+              <label htmlFor="phone">Phone Number (Optional)</label>
+              <div className="phone-input-row">
+                <select
+                  id="countryCode"
+                  name="countryCode"
+                  value={formData.countryCode}
+                  onChange={handleChange}
+                  aria-label="Country Code"
+                  className="phone-code-select cursor-pointer"
+                  disabled={isSubmitting}
+                >
+                  <option value="+91">🇮🇳 +91</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+971">🇦🇪 +971</option>
+                  <option value="+65">🇸🇬 +65</option>
+                  <option value="+61">🇦🇺 +61</option>
+                </select>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="98765 43210"
+                  autoComplete="tel"
+                  value={formData.phone}
+                  onChange={handlePhoneChange}
+                  className="phone-number-input"
+                  disabled={isSubmitting}
+                />
+              </div>
+              {phoneError && (
+                <span className="text-[11px] text-[#ff7b72] mt-1.5 block font-medium">
+                  {phoneError}
+                </span>
+              )}
+            </div>
+
+            {/* Row 3: What Do You Need? (Service Selection) */}
+            <div className="field">
+              <label htmlFor="service">What Do You Need?</label>
+              <select
+                id="service"
+                name="service"
+                value={formData.service}
+                onChange={handleServiceChange}
+                required
+                className="cursor-pointer"
+                disabled={isSubmitting}
+              >
+                <option value="">Choose a service</option>
+                <option value="Website development">Website development</option>
+                <option value="Digital marketing / Meta Ads">Digital marketing / Meta Ads</option>
+                <option value="Google Ads">Google Ads</option>
+                <option value="SEO optimization">SEO optimization</option>
+                <option value="Branding and creative">Branding and creative</option>
+                <option value="Multiple Services">Multiple Services</option>
+                <option value="Not Sure Yet">Not Sure Yet</option>
+              </select>
+            </div>
+
+            {/* Row 4: Conditional Requirements Textarea (When Applicable) */}
+            <AnimatePresence>
+              {isConditionalVisible && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0, y: -6 }}
+                  animate={{ opacity: 1, height: "auto", y: 0 }}
+                  exit={{ opacity: 0, height: 0, y: -6 }}
+                  transition={{ duration: 0.28, ease: [0.2, 0.75, 0.25, 1] }}
+                  className="field overflow-hidden"
+                >
+                  <label htmlFor="conditionalServiceDetails">
+                    Tell us more about what you&apos;re looking for
+                  </label>
+                  <textarea
+                    id="conditionalServiceDetails"
+                    name="conditionalServiceDetails"
+                    placeholder="Briefly describe your requirements, the services you're interested in, or what you would like us to help you with..."
+                    value={formData.conditionalServiceDetails}
+                    onChange={handleChange}
+                    required={isConditionalVisible}
+                    rows={3}
+                    disabled={isSubmitting}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Row 5: Tell Us About Your Project */}
+            <div className="field">
+              <label htmlFor="message">Tell Us About Your Project</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="A little about your business and goals..."
+                value={formData.message}
+                onChange={handleChange}
+                required
+                rows={4}
+                disabled={isSubmitting}
+              />
+            </div>
+
+            {/* Row 6: Submit Button */}
+            <div className="pt-1 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <Button
+                variant="primary"
+                type="submit"
+                className="w-full sm:w-auto"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Sending enquiry…" : "Prepare enquiry"}
+              </Button>
+            </div>
+
+            {submitError && (
+              <div
+                className="p-3 mt-3 rounded-lg bg-[#3b1219] border border-[#ff7b7240] text-[#ff9b9b] text-xs font-medium"
+                role="alert"
+              >
+                {submitError}
+              </div>
+            )}
+          </form>
+        )}
       </div>
     </section>
   );

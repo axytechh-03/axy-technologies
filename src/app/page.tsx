@@ -1,3 +1,4 @@
+import { BrandedPageLoader } from "@/components/ui/BrandedPageLoader";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -13,6 +14,7 @@ import { ContactSection } from "@/components/sections/ContactSection";
 export default function Home() {
   return (
     <>
+      <BrandedPageLoader />
       <SiteHeader />
       <main>
         <HeroSection />
