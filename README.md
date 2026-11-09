@@ -1,116 +1,241 @@
-# AXY Technologies — Next.js Application
+::: {align="center"}
+# AXY TECHNOLOGIES
 
-A high-performance Next.js production frontend for **AXY Technologies** ("Build. Market. Grow."), reconstructed faithfully from the original AXY design specification.
+### Your Vision, Built Digitally.
 
-## Tech Stack
+**Technology · Creativity · Digital Growth**
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19)
-- **Language**: TypeScript
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/) & CSS3 Keyframes
-- **Icons**: SVG & Lucide React
-- **Typography**: Google Fonts (`DM Sans` & `Space Grotesk`)
+A digital solutions brand focused on helping businesses build their
+online presence, connect with their audiences and grow through
+technology and digital marketing.
+:::
 
----
+------------------------------------------------------------------------
 
-## Website Sections Implemented
+## About AXY Technologies
 
-1. **Navigation (`SiteHeader`)**:
-   - Fixed navbar with dynamic scroll-blur backdrop (`#080d1be8`, 18px blur).
-   - Custom SVG brand mark with facet polygons and dual-tier typography.
-   - Active scroll-spy state mapping for desktop navigation.
-   - Responsive mobile navigation drawer with hamburger / close toggle.
+AXY Technologies brings together technology, creativity and digital
+strategy to help businesses strengthen their digital presence.
 
-2. **Hero (`HeroSection`)**:
-   - Radial blue atmospheric background glows & masked 72px grid overlay.
-   - Dual-tier kicker: `TECHNOLOGY · CREATIVITY · GROWTH`.
-   - Typographic hierarchy: `Build. Market. Grow.` with blue gradient clipping.
-   - Live status indicator with emerald pulsing halo.
-   - **Hero Visual Stage**:
-     - 3D perspective stage with mouse-responsive tilt tracking.
-     - Dual continuous orbital rings (22s and 32s reverse rotation) with glowing nodes.
-     - Central glassmorphic card (42px radius, dual inner borders, levitation keyframe float).
-     - Multi-faceted geometric AXY logo (Light blue, white, deep blue, energetic orange).
-     - 4 Floating service badges (`Web development`, `Digital marketing`, `SEO strategy`, `Creative design`).
-     - Ambient orbital shadow rings & scroll cue indicator.
+The company focuses on website development, application development and
+digital marketing solutions, with an emphasis on thoughtful design,
+practical functionality and clear communication.
 
-3. **Capability Ticker (`CapabilityTicker`)**:
-   - Continuous horizontal capability marquee seamlessly cycling `DESIGN`, `DEVELOPMENT`, `MARKETING`, `OPTIMIZATION`, `GROWTH`.
+This repository contains the source code for the official AXY
+Technologies website.
 
-4. **Services (`ServicesSection`)**:
-   - 4 Interactive capability cards with corner radial expanding glow circles on hover.
-   - Bottom conversion banner (`cap-foot`) with primary CTA.
+## Services
 
-5. **Business Opportunity (`BusinessOpportunitySection`)**:
-   - 4 Strategic impact pillars highlighting communication, responsiveness, technical SEO, and performance campaigns.
+-   **Website Development** --- Modern, responsive websites designed
+    around business goals.
+-   **Application Development** --- Digital applications tailored to
+    business requirements.
+-   **Digital Marketing** --- Digital strategies and campaigns to
+    improve brand reach and visibility.
+-   **Search Engine Optimization (SEO)** --- Website optimization to
+    support organic search visibility.
+-   **Meta Ads** --- Advertising campaigns across Meta platforms,
+    including Facebook and Instagram.
+-   **Google Ads** --- Paid search and digital advertising campaigns.
 
-6. **About / Manifesto (`AboutSection`)**:
-   - "Good work should do more than look good." narrative.
-   - Glowing manifesto visual badge (`Think clearly. Build boldly.`) with concentric orbital rings.
+## Website Overview
 
-7. **Interactive Capabilities (`InteractiveCapabilitiesSection`)**:
-   - Tabbed capability explorer across the 4 key service pillars.
-   - Live interactive preview screen with simulated architecture code, live ROAS telemetry, Core Web Vitals gauges, and design tokens.
+The website presents AXY Technologies, its capabilities, working
+approach and contact options through a responsive, interactive
+experience.
 
-8. **Process (`ProcessSection`)**:
-   - 5-step horizontal connected progression (`01 Discover`, `02 Plan`, `03 Create`, `04 Launch`, `05 Improve`).
-   - Connected gradient trajectory line adapting to vertical track on mobile devices.
+### Website Sections & Features
 
-9. **Portfolio / Concepts (`PortfolioSection`)**:
-   - 3 Curated digital concepts with interactive browser mockups and un-tilt hover transitions:
-     1. Food & hospitality experience
-     2. Campaign insights dashboard with 7 animated vertical metric bars
-     3. Modern furniture storefront with minimalist furniture asset
+1.  **Navigation (`SiteHeader`)**
+    -   Fixed navigation bar with a scroll-responsive blurred backdrop.
+    -   Custom SVG brand mark and typography.
+    -   Active-section scroll tracking for desktop navigation.
+    -   Responsive mobile navigation drawer.
+2.  **Hero (`HeroSection`)**
+    -   Radial blue background glows and a subtle grid overlay.
+    -   Brand messaging and the `Build. Market. Grow.` hero headline.
+    -   Animated live-status indicator.
+    -   Interactive 3D visual stage with mouse-responsive tilt.
+    -   Animated orbital rings, glowing nodes and a glassmorphic central
+        card.
+    -   Geometric AXY brand mark and floating service badges.
+3.  **Capability Ticker (`CapabilityTicker`)**
+    -   Continuous marquee featuring design, development, marketing,
+        optimization and growth.
+4.  **Services (`ServicesSection`)**
+    -   Four interactive capability cards.
+    -   Hover-based radial glow effects.
+    -   Conversion banner with a primary call to action.
+5.  **Business Opportunity (`BusinessOpportunitySection`)**
+    -   Four strategic impact pillars covering communication,
+        responsiveness, technical SEO and performance campaigns.
+6.  **About / Manifesto (`AboutSection`)**
+    -   Brand narrative built around the idea that good work should do
+        more than look good.
+    -   Visual manifesto badge: `Think clearly. Build boldly.`
+7.  **Interactive Capabilities (`InteractiveCapabilitiesSection`)**
+    -   Tabbed capability explorer across four service pillars.
+    -   Interactive preview featuring simulated architecture code, ROAS
+        telemetry, Core Web Vitals gauges and design tokens.
+8.  **Process (`ProcessSection`)**
+    -   Five-step workflow: Discover, Plan, Create, Launch and Improve.
+    -   Responsive progression line that adapts to smaller screens.
+9.  **Portfolio / Concepts (`PortfolioSection`)**
+    -   Three curated digital concepts presented through interactive
+        browser mockups:
+        -   Food and hospitality experience.
+        -   Campaign insights dashboard.
+        -   Modern furniture storefront.
+10. **FAQ (`FaqSection`)**
+    -   Animated accordion with smooth expand-and-collapse transitions.
+11. **Contact (`ContactSection`)**
+    -   Dark visual container with ambient background rings.
+    -   Contact information, Coimbatore location reference and
+        capability details.
+    -   Interactive enquiry form that prepares an email using a
+        `mailto:` link.
+12. **Footer (`SiteFooter`)**
+    -   Brand mark and dark footer strip.
+    -   Dynamic copyright year.
+    -   Smooth scroll-to-top interaction.
 
-10. **FAQ (`FaqSection`)**:
-    - Animated accordion with smooth height transitions and accessible expand/collapse triggers.
+## Technology Stack
 
-11. **Contact (`ContactSection`)**:
-    - Night navy container with concentric background ambient rings.
-    - Official contact points (email, location in Coimbatore, capabilities).
-    - Interactive form with pre-filled `mailto:` generator and status feedback.
+  -----------------------------------------------------------------------------------
+  Technology                                      Role
+  ----------------------------------------------- -----------------------------------
+  [Next.js](https://nextjs.org/)                  Application framework using the App
+                                                  Router
 
-12. **Footer (`SiteFooter`)**:
-    - Dark bottom strip, brand mark, dynamic copyright year, and smooth scroll-to-top handler.
+  [React 19](https://react.dev/)                  User interface
 
----
+  [TypeScript](https://www.typescriptlang.org/)   Type-safe development
+
+  [Tailwind CSS v4](https://tailwindcss.com/)     Styling and responsive layouts
+
+  [Framer Motion](https://www.framer.com/motion/) UI animations and interactions
+
+  CSS3 Keyframes                                  Additional animations
+
+  SVG & [Lucide React](https://lucide.dev/)       Icons and visual elements
+
+  Google Fonts                                    DM Sans and Space Grotesk
+                                                  typography
+  -----------------------------------------------------------------------------------
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ (tested on Node v22.20.0)
-- npm 9+
+-   Node.js 18 or later (the project was previously tested with Node.js
+    v22.20.0).
+-   npm 9 or later.
 
-### Installation
+### 1. Clone the repository
 
-```bash
+Replace `YOUR_GITHUB_USERNAME` with the GitHub account or organization
+that owns the repository.
+
+``` bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/axy-technologies.git
+```
+
+### 2. Open the project directory
+
+``` bash
 cd axy-technologies
+```
+
+### 3. Install dependencies
+
+``` bash
 npm install
 ```
 
-### Development Server
+### 4. Start the development server
 
-Run the development server:
-
-```bash
+``` bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open <http://localhost:3000> in your browser.
 
-### Production Build
+## Production
 
-Build and verify the optimized production bundle:
+Create an optimized production build:
 
-```bash
+``` bash
 npm run build
+```
+
+Run the production server:
+
+``` bash
 npm run start
 ```
 
-### Linting & Type Checking
+## Code Quality Checks
 
-```bash
+Run the project's lint command:
+
+``` bash
 npm run lint
+```
+
+Run TypeScript type checking:
+
+``` bash
 npx tsc --noEmit
 ```
+
+## Project Structure
+
+The main project directories include:
+
+``` text
+axy-technologies/
+├── public/       # Static assets
+├── src/          # Application source code
+├── .gitignore
+├── next.config.ts
+├── package.json
+├── package-lock.json
+└── tsconfig.json
+```
+
+Additional files and configuration may be present in the repository.
+
+## Brand
+
+**AXY Technologies**\
+**Your Vision, Built Digitally.**
+
+The website currently uses the brand expression `Build. Market. Grow.`
+in its hero section.
+
+## Contact
+
+The website includes a contact section with enquiry functionality and a
+Coimbatore location reference.
+
+For business enquiries, use the contact details published on the
+official AXY Technologies website.
+
+## Ownership & Usage
+
+© AXY Technologies. All rights reserved.
+
+This repository contains proprietary commercial project code for AXY
+Technologies. No permission is granted to copy, redistribute, modify,
+sublicense or commercially exploit this code without prior written
+authorization from the rights holder.
+
+Third-party libraries and assets remain subject to their respective
+licences and terms.
+
+------------------------------------------------------------------------
+
+::: {align="center"}
+**AXY TECHNOLOGIES**\
+*Your Vision, Built Digitally.*
+:::
